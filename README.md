@@ -27,5 +27,5 @@ export MY_RANK=<rank_of_node>
 then to run the scrit
 
 ```bash
-uv run --with torch --with numpy --with setuptools torchrun --nproc_per_node=8 --node-rank $MY_RANK --rdzv_endpoint=$RDZV_ENDPOINT --nnodes=<total_number_of_nodes> all_reduce_test.py
+uv run --with torch --with numpy --with setuptools torchrun --nproc_per_node=8 --node-rank $MY_RANK --rdzv_endpoint=$RDZV_ENDPOINT --nnodes=<total_number_of_nodes> all_reduce_test.py --n_iters 5
 ```
