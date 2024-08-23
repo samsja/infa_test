@@ -24,11 +24,17 @@ def ddp_setup():
 
 def main(model_size, n_iters):
     local_rank = int(os.environ["LOCAL_RANK"])
+    world_size = int(os.environ["WORLD_SIZE"])
+    local_world_size = int(os.environ["LOCAL_WORLD_SIZE"])
+    nnodes = world_size // local_world_size
 
     mat = torch.rand(1, model_size).cuda()
 
-    t0 = benchmark.Timer(stmt="dist.all_reduce(mat)", setup="from __main__ import dist", globals={"mat": mat})
 
+    if local_rank == 0:
+        print(f"\n ======== Benchmark all reduce between {world_size} gpus over {nnodes} nodes =========\n")
+
+    t0 = benchmark.Timer(stmt="dist.all_reduce(mat)", setup="from __main__ import dist", globals={"mat": mat})
     measured_time = t0.timeit(n_iters).mean
 
     bandwidth = model_size * 4 / 1e9 / measured_time
