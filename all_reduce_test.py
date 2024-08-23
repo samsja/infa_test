@@ -2,6 +2,7 @@
 # dependencies = [
 #   "torch",
 #   "numpy",
+#   "setuptools",
 # ]
 # ///
 
